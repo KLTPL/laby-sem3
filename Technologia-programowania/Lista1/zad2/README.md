@@ -10,6 +10,7 @@ java -cp target/scratch-1.0-SNAPSHOT.jar pt.trainings.maven.scratch.HelloWorld
 mvn compile
 mvn test
 mvn dependency:tree
+mvn help:effective-pom
 ```
 
 ## 1.6
