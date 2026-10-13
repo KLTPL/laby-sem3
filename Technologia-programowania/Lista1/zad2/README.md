@@ -18,3 +18,12 @@ mvn help:effective-pom
 ```bash
 mvn install
 ```
+
+## 3
+
+```bash
+mvn archetype:generate
+
+# filter: maven-archetype-quickstart
+# chose: org.apache.maven.archetypes:maven-archetype-quickstart (An archetype which contains a sample Maven project.)
+```
