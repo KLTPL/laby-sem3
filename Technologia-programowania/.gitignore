@@ -7,6 +7,12 @@ target/
 .project
 .classpath
 .settings/
+.factorypath
+.apt_generated/
+
+# Packaged artifacts
+*.war
+*.ear
 
 # Course materials
 *.pdf
