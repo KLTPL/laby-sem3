@@ -1,1 +1,4 @@
 *.pdf
+
+# Cloned xv6 repos (each has its own .git), see Lista1/zad4/README.md
+xv6-*/
