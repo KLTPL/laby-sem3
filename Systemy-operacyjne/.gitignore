@@ -2,3 +2,7 @@
 
 # Cloned xv6 repos (each has its own .git), see Lista1/zad4/README.md
 xv6-*/
+
+# zad5: build output and downloaded BusyBox rootfs
+Lista1/zad5/mini_container
+Lista1/zad5/mini_rootfs/
