@@ -7,16 +7,50 @@ import java.util.Objects;
  *
  * <p>GRASP Information Expert: książka zna tylko własne dane (tytuł, autor). Nie wie
  * o egzemplarzach, dzięki czemu ma niskie sprzężenie.
- *
- * @param id identyfikator nadany przez repozytorium
- * @param title tytuł
- * @param author autor
  */
-public record Book(long id, String title, String author) {
+public final class Book {
 
-  /** Odrzuca brakujące (null) pola. */
-  public Book {
-    Objects.requireNonNull(title, "title");
-    Objects.requireNonNull(author, "author");
+  private final long id;
+  private final String title;
+  private final String author;
+
+  /**
+   * Tworzy tytuł.
+   *
+   * @param id identyfikator nadany przez repozytorium
+   * @param title tytuł
+   * @param author autor
+   */
+  public Book(long id, String title, String author) {
+    this.id = id;
+    this.title = Objects.requireNonNull(title, "title");
+    this.author = Objects.requireNonNull(author, "author");
+  }
+
+  /**
+   * Zwraca identyfikator tytułu.
+   *
+   * @return identyfikator
+   */
+  public long id() {
+    return id;
+  }
+
+  /**
+   * Zwraca tytuł.
+   *
+   * @return tytuł
+   */
+  public String title() {
+    return title;
+  }
+
+  /**
+   * Zwraca autora.
+   *
+   * @return autor
+   */
+  public String author() {
+    return author;
   }
 }

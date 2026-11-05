@@ -4,16 +4,16 @@ Aktor: **Bibliotekarz**, który obsługuje system z konsoli.
 
 ```mermaid
 flowchart LR
-  B([Bibliotekarz])
-  subgraph S [System wypożyczalni]
-    UC1((UC1 Dodaj czytelnika))
-    UC2((UC2 Dodaj egzemplarz))
-    UC2a((UC2a Dodaj tytuł))
-    UC3((UC3 Wypożycz egzemplarz))
-    UC4((UC4 Zwróć egzemplarz))
-    UC5((UC5 Pokaż książki))
-    UC6((UC6 Pokaż czytelników))
-    UCW((Wybierz z listy po nazwie))
+  B(["Bibliotekarz"])
+  subgraph S ["System wypożyczalni"]
+    UC1(("UC1 Dodaj czytelnika"))
+    UC2(("UC2 Dodaj egzemplarz"))
+    UC2a(("UC2a Dodaj tytuł"))
+    UC3(("UC3 Wypożycz egzemplarz"))
+    UC4(("UC4 Zwróć egzemplarz"))
+    UC5(("UC5 Pokaż książki"))
+    UC6(("UC6 Pokaż czytelników"))
+    UCW(("Wybierz z listy po nazwie"))
   end
   B --- UC1
   B --- UC2
@@ -21,9 +21,9 @@ flowchart LR
   B --- UC4
   B --- UC5
   B --- UC6
-  UC2a -.->|«extend» gdy brak tytułu| UC2
-  UC3 -.->|«include»| UCW
-  UC4 -.->|«include»| UCW
+  UC2a -.->|"«extend» gdy brak tytułu"| UC2
+  UC3 -.->|"«include»"| UCW
+  UC4 -.->|"«include»"| UCW
 ```
 
 Mermaid nie ma osobnego diagramu przypadków użycia, więc użyto `flowchart`: koła to przypadki użycia, a linie przerywane to relacje «include» i «extend».

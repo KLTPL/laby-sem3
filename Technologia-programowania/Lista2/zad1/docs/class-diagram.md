@@ -5,10 +5,12 @@ Klasy dziedzinowe: `Book`, `Copy`, `Loan`, `Reader`. Reszta to klasy techniczne 
 ```mermaid
 classDiagram
   class Book {
-    <<record>>
-    +long id
-    +String title
-    +String author
+    -long id
+    -String title
+    -String author
+    +id() long
+    +title() String
+    +author() String
   }
   class Copy {
     -long id
@@ -29,9 +31,10 @@ classDiagram
     markReturned(LocalDate date) void
   }
   class Reader {
-    <<record>>
-    +long id
-    +String name
+    -long id
+    -String name
+    +id() long
+    +name() String
   }
   class Repository~T~ {
     <<interface>>

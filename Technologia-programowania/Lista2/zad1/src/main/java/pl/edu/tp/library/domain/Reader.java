@@ -7,14 +7,38 @@ import java.util.Objects;
  *
  * <p>GRASP Low Coupling: czytelnik nie przechowuje wypożyczeń. Wypożyczenia są
  * w {@link Copy}, więc informacja nie jest zapisana w dwóch miejscach.
- *
- * @param id identyfikator nadany przez repozytorium
- * @param name imię i nazwisko
  */
-public record Reader(long id, String name) {
+public final class Reader {
 
-  /** Odrzuca brakujące (null) imię. */
-  public Reader {
-    Objects.requireNonNull(name, "name");
+  private final long id;
+  private final String name;
+
+  /**
+   * Tworzy czytelnika.
+   *
+   * @param id identyfikator nadany przez repozytorium
+   * @param name imię i nazwisko
+   */
+  public Reader(long id, String name) {
+    this.id = id;
+    this.name = Objects.requireNonNull(name, "name");
+  }
+
+  /**
+   * Zwraca identyfikator czytelnika.
+   *
+   * @return identyfikator
+   */
+  public long id() {
+    return id;
+  }
+
+  /**
+   * Zwraca imię i nazwisko.
+   *
+   * @return imię i nazwisko
+   */
+  public String name() {
+    return name;
   }
 }
