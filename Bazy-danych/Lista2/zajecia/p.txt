@@ -1,0 +1,16 @@
+1. Utwórz bazę danych aparaty. Utwórz użytkownika o nazwie [numer albumu]. Ustaw dla niego hasło będące konkatynacją twojego nazwiska i dwóch ostatnich cyfr numeru albumu. Nadaj mu uprawnienia wyłącznie do wykonywania procedur w bazie aparaty.
+
+2. Zadanie 2 z listy 2.
+
+3. Zadanie 3 z listy 2.
+
+4. Zmodyfikuj zadanie 4 z listy tak żeby nazwy generowanych aparatów miały kształt Aparat-nr gdzie numer nadawany jest sekwencyjnie. Zapewnij możliwość wielekrotnego wywoływania procedury bez błędów zgłaszanych przez silnik.
+Czy użytkownik nralbumu może utworzyć tę procedurę? Napisz jakie uprawnienie mu na to pozwala. albo jeżeli nie może, to jakie uprawnienie musiałby mieć, żeby utworzyć taką procedurę? Czy może ją wykonać? Podaj komendę.
+
+5. Zmień procedurę z zadania 5 z listy na funkcję. Napisz jakie są konsekwencję ustawienia tej funkcji jako deterministycznej?
+
+6. Napisz funkcję sprawdź_aparat(id_producenta INT, id_matrycy INT, id_obiektywu INT), która sprawdza, czy wszystkie trzy powiązane klucze obce tabeli aparat - producent, matryca, aparat podane jako argument funkcji, istnieją w odpowiadających im tabelach. Funkcja powinna zwracać true albo false.
+
+7. Napisz wyzwalacz blukujący edycję (usunięcie lub modyfikację) rekordu w tabeli obiektyw, jeśli dany obiektyw jest przypisany do chociaż jednego aparatu z tabeli aparat. Wyzwalacz powinien zgłosić czytelny błąd użytkownikowi (np. poprzez SIGNAL SQLSTATE `45000` z odpowiednim komunikatem MESSAGE_TEXT).
+
+8. Stwórz tabelę HistoriaProducentów (id, id_producenta, stary_kraj, nowy_kraj, data_zmiany). Napisz wyzwalacz na tabeli Producent, który przy każdej zmianie wartości kraj automatycznie zarejestruję zmianę w tabeli histori.

@@ -1,0 +1,337 @@
+1.
+
+CREATE DATABASE IF NOT EXISTS aparaty;
+
+CREATE USER IF NOT EXISTS '289936'@'%' IDENTIFIED BY 'Lebiedzinski36';
+
+GRANT EXECUTE ON aparaty.* TO '289936'@'%';
+SHOW GRANTS FOR '289936'@'%';
+
+2.
+
+-- Jako root (289936 nie ma prawa CREATE).
+USE aparaty;
+
+CREATE TABLE Producent (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    nazwa VARCHAR(50) NOT NULL,
+    kraj VARCHAR(20) NOT NULL DEFAULT 'nieznany',
+    adresKorespondencyjny VARCHAR(100) NOT NULL DEFAULT 'nieznany',
+    CONSTRAINT producent_nazwa_niepusta CHECK (TRIM(nazwa) <> '')
+);
+
+CREATE TABLE Matryca (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    przekatna DECIMAL(4, 2),
+    rozdzielczosc DECIMAL(3, 1),
+    typ VARCHAR(10),
+    CONSTRAINT matryca_przekatna_nieujemna CHECK (przekatna >= 0),
+    CONSTRAINT matryca_rozdzielczosc_nieujemna CHECK (rozdzielczosc >= 0)
+) AUTO_INCREMENT = 100;
+
+CREATE TABLE Obiektyw (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    model VARCHAR(30),
+    minPrzeslona FLOAT,
+    maxPrzeslona FLOAT,
+    CONSTRAINT obiektyw_min_nieujemna CHECK (minPrzeslona >= 0),
+    CONSTRAINT obiektyw_max_nieujemna CHECK (maxPrzeslona >= 0),
+    CONSTRAINT obiektyw_min_mniejsza CHECK (minPrzeslona < maxPrzeslona)
+);
+
+CREATE TABLE Aparat (
+    model VARCHAR(30) PRIMARY KEY,
+    producent INT,
+    matryca INT,
+    obiektyw INT,
+    waga FLOAT,
+    typ ENUM('kompaktowy', 'lustrzanka', 'profesjonalny', 'inny'),
+    CONSTRAINT aparat_waga_nieujemna CHECK (waga >= 0),
+    CONSTRAINT aparat_producent_fk FOREIGN KEY (producent)
+    REFERENCES Producent (ID),
+    CONSTRAINT aparat_matryca_fk FOREIGN KEY (matryca)
+    REFERENCES Matryca (ID),
+    CONSTRAINT aparat_obiektyw_fk FOREIGN KEY (obiektyw)
+    REFERENCES Obiektyw (ID)
+);
+
+SHOW TABLES;
+
+3.
+
+-- Jako root (289936 nie ma prawa INSERT).
+INSERT INTO Producent (nazwa, kraj, adresKorespondencyjny) VALUES
+('Canon', 'Japonia', 'Tokio, Shimomaruko 3-30-2'),
+('Nikon', 'Japonia', 'Tokio, Shinagawa 1-5-20'),
+('Sony', 'Japonia', 'Tokio, Konan 1-7-1'),
+('Fujifilm', 'Japonia', 'Tokio, Akasaka 9-7-3'),
+('Olympus', 'Japonia', 'Tokio, Shinjuku 2-3-1'),
+('Panasonic', 'Japonia', 'Osaka, Kadoma 1006'),
+('Pentax', 'Japonia', 'Tokio, Itabashi 2-35-7'),
+('Leica', 'Niemcy', 'Wetzlar, Am Leitz-Park 5'),
+('Hasselblad', 'Szwecja', 'Goteborg, Ekonomivagen 2'),
+('Sigma', 'Japonia', 'Kawasaki, Kurigi 2-8-15'),
+('Kodak', 'USA', 'Rochester, State Street 343'),
+('Ricoh', 'Japonia', 'Tokio, Ginza 8-13-1');
+INSERT INTO Producent (nazwa) VALUES
+('Zenit'),
+('Praktica'),
+('Yashica');
+
+INSERT INTO Matryca (przekatna, rozdzielczosc, typ) VALUES
+(43.27, 24.2, 'CMOS'),
+(43.27, 45.7, 'BSI-CMOS'),
+(43.27, 61.0, 'BSI-CMOS'),
+(28.40, 24.1, 'CMOS'),
+(28.40, 26.1, 'X-Trans'),
+(26.80, 32.5, 'CMOS'),
+(21.64, 20.4, 'Live MOS'),
+(21.64, 25.2, 'Live MOS'),
+(15.86, 20.1, 'BSI-CMOS'),
+(7.66, 16.0, 'CCD'),
+(7.66, 12.1, 'CMOS'),
+(55.00, 50.0, 'CMOS'),
+(54.78, 51.4, 'BSI-CMOS'),
+(31.10, 14.8, 'Foveon'),
+(9.50, 10.0, 'CCD');
+
+INSERT INTO Obiektyw (model, minPrzeslona, maxPrzeslona) VALUES
+('EF 50mm f/1.2L', 1.2, 16),
+('EF 50mm f/1.8 STM', 1.8, 22),
+('RF 24-105mm f/4L', 4.0, 22),
+('AF-S 85mm f/1.4G', 1.4, 16),
+('Z 24-70mm f/2.8 S', 2.8, 22),
+('FE 70-200mm f/4 G', 4.0, 22),
+('FE 35mm f/1.8', 1.8, 22),
+('XF 23mm f/2 R WR', 2.0, 16),
+('M.Zuiko 12-40mm f/2.8', 2.8, 22),
+('Lumix 25mm f/1.7', 1.7, 16),
+('HD DA 55-300mm f/4.5', 4.5, 32),
+('Summilux-M 50mm f/1.4', 1.4, 16),
+('XCD 45mm f/3.5', 3.5, 32),
+('Art 18-35mm f/1.8', 1.8, 16),
+('GR 18.3mm f/2.8', 2.8, 16);
+
+INSERT INTO Aparat (model, producent, matryca, obiektyw, waga, typ) VALUES
+('EOS R6', 1, 100, 3, 680, 'profesjonalny'),
+('EOS 250D', 1, 103, 2, 449, 'lustrzanka'),
+('EOS R5', 1, 101, 1, 738, 'profesjonalny'),
+('D850', 2, 101, 4, 1005, 'lustrzanka'),
+('Z6 II', 2, 100, 5, 705, 'profesjonalny'),
+('A7R IV', 3, 102, 6, 665, 'profesjonalny'),
+('RX100 VII', 3, 108, 7, 302, 'kompaktowy'),
+('X-T4', 4, 104, 8, 607, 'inny'),
+('OM-D E-M1 III', 5, 107, 9, 580, 'inny'),
+('Lumix G9', 6, 106, 10, 658, 'inny'),
+('K-1 II', 7, 100, 11, 1010, 'lustrzanka'),
+('M11', 8, 102, 12, 640, 'profesjonalny'),
+('X2D 100C', 9, 112, 13, 895, 'profesjonalny'),
+('sd Quattro', 10, 113, 14, 625, 'inny'),
+('GR III', 12, 103, 15, 257, 'kompaktowy');
+
+SELECT COUNT(*) AS producenci FROM Producent;
+SELECT COUNT(*) AS matryce FROM Matryca;
+SELECT COUNT(*) AS obiektywy FROM Obiektyw;
+SELECT COUNT(*) AS aparaty FROM Aparat;
+
+4.
+
+-- Tworzy root (289936 nie ma CREATE ROUTINE).
+DROP PROCEDURE IF EXISTS generuj_aparaty;
+
+DELIMITER //
+
+CREATE PROCEDURE generuj_aparaty()
+BEGIN
+    DECLARE nr INT;
+    DECLARE koniec INT;
+
+    SELECT COALESCE(MAX(CAST(SUBSTRING(model, 8) AS UNSIGNED)), 0)
+    INTO nr
+    FROM Aparat
+    WHERE model REGEXP '^Aparat-[0-9]+$';
+
+    SET koniec = nr + 100;
+
+    WHILE nr < koniec DO
+        SET nr = nr + 1;
+        INSERT INTO Aparat (model, producent, matryca, obiektyw, waga, typ)
+        VALUES (
+            CONCAT('Aparat-', nr),
+            (SELECT ID FROM Producent ORDER BY RAND() LIMIT 1),
+            (SELECT ID FROM Matryca ORDER BY RAND() LIMIT 1),
+            (SELECT ID FROM Obiektyw ORDER BY RAND() LIMIT 1),
+            ROUND(150 + RAND() * 1350),
+            ELT(1 + FLOOR(RAND() * 4),
+                'kompaktowy', 'lustrzanka', 'profesjonalny', 'inny')
+        );
+    END WHILE;
+END //
+
+DELIMITER ;
+
+-- Wywołanie przez 289936
+-- mysql -u289936 -pLebiedzinski36 aparaty -e "CALL generuj_aparaty();"
+CALL generuj_aparaty();
+CALL generuj_aparaty();
+
+SELECT model FROM Aparat WHERE model LIKE 'Aparat-%'
+ORDER BY CAST(SUBSTRING(model, 8) AS UNSIGNED) DESC LIMIT 3;
+
+-- Odpowiedzi:
+-- 1. Nie. 289936 ma tylko EXECUTE. Do utworzenia procedury potrzebuje
+--    CREATE ROUTINE:
+--      GRANT CREATE ROUTINE ON aparaty.* TO '289936'@'%';
+--    Wtedy procedura miałaby DEFINER = 289936 i działała z jego prawami, 
+--    więc do jej działania potrzebowałby jeszcze
+--    SELECT i INSERT na tabelach.
+-- 2. Tak. EXECUTE na aparaty.* pozwala ją wywołać. Procedura działa z prawami
+--    twórcy (root), więc 289936 nie potrzebuje INSERT na Aparat:
+--      CALL aparaty.generuj_aparaty();
+
+5.
+
+DROP FUNCTION IF EXISTS najmniejsza_matryca;
+
+DELIMITER //
+
+CREATE FUNCTION najmniejsza_matryca(p_producent INT)
+RETURNS VARCHAR(30)
+NOT DETERMINISTIC
+READS SQL DATA
+BEGIN
+    RETURN (
+        SELECT a.model
+        FROM Aparat AS a
+        INNER JOIN Matryca AS m ON a.matryca = m.ID
+        WHERE a.producent = p_producent
+        ORDER BY m.przekatna ASC, a.model ASC
+        LIMIT 1
+    );
+END //
+
+DELIMITER ;
+
+SELECT najmniejsza_matryca(1) AS canon, najmniejsza_matryca(999) AS brak;
+
+-- Odpowiedź:
+-- DETERMINISTIC to tylko deklaracja: MySQL nie sprawdza, czy jest prawdziwa.
+-- Oznacza że dane argumenty mają zawsze dawać ten sam wynik. Nasza funkcja czyta
+-- tabele, więc wynik zmienia się po zmianie danych a więc nie jest deterministyczna.
+-- Konsekwencje oznaczenia jej DETERMINISTIC:
+-- - SQL traktuje wywołanie ze stałym argumentem jak stałą więc liczy je
+--   raz i może użyć indeksu
+-- - przy fałszywej deklaracji wynik zapytania może być błędny, gdy dane
+--   zmieniają się w trakcie (np. w przez wywołanie UPDATE;
+
+6.
+
+DROP FUNCTION IF EXISTS sprawdz_aparat;
+
+DELIMITER //
+
+CREATE FUNCTION sprawdz_aparat(
+    id_producenta INT,
+    id_matrycy INT,
+    id_obiektywu INT
+)
+RETURNS BOOLEAN
+READS SQL DATA
+BEGIN
+    RETURN EXISTS (SELECT 1 FROM Producent WHERE ID = id_producenta)
+        AND EXISTS (SELECT 1 FROM Matryca WHERE ID = id_matrycy)
+        AND EXISTS (SELECT 1 FROM Obiektyw WHERE ID = id_obiektywu);
+END //
+
+DELIMITER ;
+
+-- 1 = TRUE, 0 = FALSE.
+SELECT
+    sprawdz_aparat(1, 100, 1) AS wszystkie,
+    sprawdz_aparat(999, 100, 1) AS brak_producenta,
+    sprawdz_aparat(1, 999, 1) AS brak_matrycy,
+    sprawdz_aparat(1, 100, 999) AS brak_obiektywu;
+
+7.
+
+DROP TRIGGER IF EXISTS blokuj_zmiane_obiektywu;
+DROP TRIGGER IF EXISTS blokuj_usuniecie_obiektywu;
+
+DELIMITER //
+
+-- dwa wyzwalacze dla dwóch zdarzeń
+CREATE TRIGGER blokuj_zmiane_obiektywu
+BEFORE UPDATE ON Obiektyw
+FOR EACH ROW
+BEGIN
+    DECLARE v_komunikat VARCHAR(128);
+
+    IF EXISTS (SELECT 1 FROM Aparat WHERE obiektyw = OLD.ID) THEN
+        SET v_komunikat = CONCAT(
+            'Nie można zmienić obiektywu ', OLD.ID,
+            ': jest przypisany do aparatu'
+        );
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = v_komunikat;
+    END IF;
+END //
+
+CREATE TRIGGER blokuj_usuniecie_obiektywu
+BEFORE DELETE ON Obiektyw
+FOR EACH ROW
+BEGIN
+    DECLARE v_komunikat VARCHAR(128);
+
+    IF EXISTS (SELECT 1 FROM Aparat WHERE obiektyw = OLD.ID) THEN
+        SET v_komunikat = CONCAT(
+            'Nie można usunąć obiektywu ', OLD.ID,
+            ': jest przypisany do aparatu'
+        );
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = v_komunikat;
+    END IF;
+END //
+
+DELIMITER ;
+
+UPDATE Obiektyw SET maxPrzeslona = 22 WHERE ID = 1;
+DELETE FROM Obiektyw WHERE ID = 1;
+
+INSERT INTO Obiektyw (model, minPrzeslona, maxPrzeslona)
+VALUES ('Test 50mm', 2.0, 16);
+UPDATE Obiektyw SET maxPrzeslona = 22 WHERE model = 'Test 50mm';
+DELETE FROM Obiektyw WHERE model = 'Test 50mm';
+
+8.
+
+CREATE TABLE HistoriaProducentow (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_producenta INT NOT NULL,
+    stary_kraj VARCHAR(20),
+    nowy_kraj VARCHAR(20),
+    data_zmiany DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT historia_producent_fk FOREIGN KEY (id_producenta)
+    REFERENCES Producent (ID) ON DELETE CASCADE
+);
+
+DROP TRIGGER IF EXISTS zapisz_zmiane_kraju;
+
+DELIMITER //
+
+CREATE TRIGGER zapisz_zmiane_kraju
+AFTER UPDATE ON Producent
+FOR EACH ROW
+BEGIN
+    IF NOT (OLD.kraj <=> NEW.kraj) THEN
+        INSERT INTO HistoriaProducentow (id_producenta, stary_kraj, nowy_kraj)
+        VALUES (OLD.ID, OLD.kraj, NEW.kraj);
+    END IF;
+END //
+
+DELIMITER ;
+
+UPDATE Producent SET kraj = 'Rosja' WHERE nazwa = 'Zenit';
+UPDATE Producent SET kraj = 'Niemcy' WHERE nazwa = 'Praktica'; 
+
+-- bez zmiany kraju więc brak wpisu.
+UPDATE Producent SET adresKorespondencyjny = 'Dresden' WHERE nazwa = 'Praktica';
+
+SELECT * FROM HistoriaProducentow;
