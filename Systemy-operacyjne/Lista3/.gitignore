@@ -1,0 +1,9 @@
+# xv6 sources are fetched separately (see zad5.md); keep only modified files
+zad5/xv6/*
+!zad5/xv6/expr.c
+!zad5/xv6/Makefile
+monitor.log
+zad6/xv6/*
+!zad6/xv6/console.c
+!zad6/xv6/hello.c
+!zad6/xv6/Makefile
