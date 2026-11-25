@@ -1,10 +1,10 @@
 #!/bin/bash
 # Simple htop-like process manager using /proc.
 
-shopt -s nullglob
+shopt -s nullglob # shell options (regex returns 0 elements when there is no match instead of 1)
 
-cleanup() {
-  stty sane
+cleanup() { # bring terminal to usual settings when leaving the script
+  stty sane # stty changes settings of the terminal driver in the kernel
   tput cnorm
   tput clear
 }
@@ -27,14 +27,14 @@ show_processes() {
   local rows=$(($(tput lines) - 3))
   local count=0 pid line comm rest fds
 
-  tput cup 0 0
+  tput cup 0 0 # moves cursor to 0 0
   printf "%-8s %-8s %-16s %-5s %-8s %-10s %-8s %-8s %-5s\033[K\n" \
     PPID PID COMM STATE TTY "RSS(kB)" PGID SID FILES
 
   # newest (highest PID) first; glob alone sorts PIDs as text
   for dir in $(printf '%s\n' /proc/[0-9]* | sort -t/ -k3 -nr); do
-    [[ -O $dir ]] || continue # only current user's processes
-    read -r line <"$dir/stat" 2>/dev/null || continue
+    [[ -O $dir ]] || continue                         # only current user's processes
+    read -r line <"$dir/stat" 2>/dev/null || continue # -r treats \ literally
     pid=${line%% *}
     comm=${line#*(}
     comm=${comm%)*}     # name between first "(" and last ")"
@@ -54,15 +54,15 @@ show_processes() {
 
 # Ask for input in normal (canonical) terminal mode.
 ask() {
-  stty echo icanon
-  tput cnorm
+  stty echo icanon # enables default settings for: showing typed charackters, writing typed things to the buffer and waiting for enter to confirm
+  tput cnorm       # shows cursor
   printf "\n"
   read -rp "$1" REPLY
   stty -echo -icanon
   tput civis
 }
 
-tput civis
+tput civis # hides cursor
 tput clear
 stty -echo -icanon
 

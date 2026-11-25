@@ -42,7 +42,7 @@ read_net() {
     while read -r iface rx f2 f3 f4 f5 f6 f7 f8 tx rest; do
       [[ $iface == lo: ]] && continue
       ((RX += rx, TX += tx))
-    done; } </proc/net/dev
+    done; } </proc/net/dev # everything in {} reads from /proc/net/dev
 }
 
 # Read per-core counters from /proc/stat into CPU_TOTAL[i], CPU_IDLE[i].
@@ -93,7 +93,7 @@ show_net() {
 show_uptime() {
   local up rest
   read -r up rest </proc/uptime
-  up=${up%.*}
+  up=${up%.*} # leves only the whole number
   printf "Uptime: %dd %02dh %02dm %02ds\033[K\n" \
     $((up / 86400)) $((up % 86400 / 3600)) $((up % 3600 / 60)) $((up % 60))
 }
@@ -131,7 +131,7 @@ tput clear
 stty -echo -icanon
 
 while true; do
-  read -rsn1 -t 1 key && [[ $key == q ]] && break
+  read -rsn1 -t 1 key && [[ $key == q ]] && break # s: silent, n1: read 1 char, -t 1: wait one second
   tput cup 0 0
   show_net
   echo -e "\033[K"
