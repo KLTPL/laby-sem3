@@ -32,7 +32,7 @@ public abstract class Shape {
 	 *         otherwise
 	 */
 	public CompositeShape asComposite() {
-		//TODO: Implement
+		// Leaf shapes are not composites; CompositeShape overrides this to return itself
 		return null;
 	}
 
@@ -48,7 +48,12 @@ public abstract class Shape {
 		this.x += xIncrement;
 		this.y += yIncrement;
 		// if is composite, delegate to children
-		//TODO: COmplete
+		CompositeShape composite = asComposite();
+		if (composite != null) {
+			for (Shape child : composite.getShapes()) {
+				child.move(xIncrement, yIncrement);
+			}
+		}
 	}
 
 	/**

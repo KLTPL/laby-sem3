@@ -17,7 +17,6 @@ package eu.jpereira.trainings.designpatterns.behavioral.state.appliance.state;
 
 /**
  * @author jpereira
- * TODO: Find TODOs in this class and follow them
  *
  */
 public class StartedState implements ApplianceStateBehavior {
@@ -27,8 +26,7 @@ public class StartedState implements ApplianceStateBehavior {
 	 */
 	@Override
 	public ApplianceState getState() {
-		//TODO: Return the correct ApplianceState
-		return null;
+		return ApplianceState.STARTED;
 	}
 
 	/* (non-Javadoc)

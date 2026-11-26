@@ -15,41 +15,25 @@
  */
 package eu.jpereira.trainings.designpatterns.creational.abstractfactory;
 
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.json.JSONReportBody;
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.json.JSONReportFooter;
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.json.JSONReportHeader;
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.xml.XMLReportBody;
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.xml.XMLReportFooter;
-import eu.jpereira.trainings.designpatterns.creational.abstractfactory.xml.XMLReportHeader;
-
 public class Report {
 
 	private String reportContent;
 	private ReportBody body;
 	private ReportFooter footer;
 	private ReportHeader header;
-	private String reportType;
 	
 
 	
 	
 	/**
-	 * @param string
+	 * @param factory family of report elements (JSON, XML, ...)
 	 */
-	public Report(String string) {
-		this.reportType = string;
-		if ( reportType.equals("JSON")) {
-			//to compose Report with JSON objects
-			this.setBody(new JSONReportBody());
-			this.setFooter(new JSONReportFooter());
-			this.setHeader(new JSONReportHeader());
-		} else {
-			this.setFooter(new XMLReportFooter());
-			this.setHeader(new XMLReportHeader());
-			this.setBody(new XMLReportBody());
-		}
+	public Report(ReportFactory factory) {
+		// Report knows only the abstract factory; the concrete family is chosen by the caller
+		this.setHeader(factory.createHeader());
+		this.setBody(factory.createBody());
+		this.setFooter(factory.createFooter());
 	}
-
 
 	public void setBody(ReportBody body) {
 		this.body = body;
@@ -71,21 +55,17 @@ public class Report {
 		this.reportContent = reportContent;
 	}
 
-
 	public String getReportContent() {
 		return reportContent;
 	}
-
 
 	public ReportBody getBody() {
 		return body;
 	}
 
-
 	public ReportFooter getFooter() {
 		return footer;
 	}
-
 
 	public ReportHeader getHeader() {
 		return header;

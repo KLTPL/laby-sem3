@@ -29,14 +29,12 @@ public class ThirdPartyAdapterTest extends DoorTest {
 
 	@Override
 	protected Door createDoorUnderTest() {
-		return new SimpleDoor();
-		//return new ThirdPartyDoorAdaper();
+		return new ThirdPartyDoorAdaper();
 	}
 
 	@Override
 	protected String getDefaultDoorCode() {
-		return SimpleDoor.DEFAULT_DOOR_CODE;
-		//return ThirdPartyDoor.DEFAULT_CODE;
+		return ThirdPartyDoor.DEFAULT_CODE;
 	}
 
 }

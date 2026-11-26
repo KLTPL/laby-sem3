@@ -15,6 +15,9 @@
  */
 package eu.jpereira.trainings.designpatterns.behavioral.command.model.command;
 
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.results.DBServerInstanceResult;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.exceptions.CouldNotConnectException;
+
 import eu.jpereira.trainings.designpatterns.behavioral.command.model.DBServerInstanceGroup;
 
 /**
@@ -43,24 +46,21 @@ public class StopInstanceGroupCommand extends DBServerInstanceGroupCommand {
 	 * eu.jpereira.trainings.designpatterns.behavioral.command.model.command
 	 * .DBServerInstanceGroupCommand#execute()
 	 */
-	//TODO: EXERCISE: Uncomment 
-	/**
 	@Override
 	public void execute() throws CouldNotConnectException {
 		this.receiver.stopAllInstances();
 
-	}*/
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command#getResult()
 	 */
-	//TODO: EXERCISE: Uncomment 
-	/*
+		
 	@SuppressWarnings("rawtypes")
 	@Override
 	public DBServerInstanceResult getResult() {
 		
 		return null;
-	}*/
+	}
 
 }

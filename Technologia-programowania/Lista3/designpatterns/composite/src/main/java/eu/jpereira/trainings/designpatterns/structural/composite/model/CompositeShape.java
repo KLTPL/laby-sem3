@@ -15,6 +15,8 @@
  */
 package eu.jpereira.trainings.designpatterns.structural.composite.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -39,9 +41,7 @@ public abstract class CompositeShape extends Shape {
 	 *         was not present
 	 */
 	public boolean removeShape(Shape shape) {
-		// TODO: implement
-		return false;
-
+		return this.shapes.remove(shape);
 	}
 
 	/**
@@ -50,9 +50,7 @@ public abstract class CompositeShape extends Shape {
 	 * @return the total count of shapes if the shape is composite. -1 otherwise
 	 */
 	public int getShapeCount() {
-		// TODO: implement
-		return 0;
-
+		return this.shapes.size();
 	}
 
 	/**
@@ -64,22 +62,26 @@ public abstract class CompositeShape extends Shape {
 	 *             if this shape is not a composite
 	 */
 	public void addShape(Shape shape) {
-		// TODO: Implement
+		this.shapes.add(shape);
 	}
 
 	public List<Shape> getShapes() {
-		// TODO: Implement
-		return null;
-
+		// read-only view: children are changed only through addShape/removeShape
+		return Collections.unmodifiableList(this.shapes);
 	}
 
 	/**
-	 * @param circle
-	 * @return
+	 * @param type
+	 * @return direct children of the given type
 	 */
-	public List<Shape> getShapesByType(ShapeType circle) {
-		return null;
-		// TODO: Implement
+	public List<Shape> getShapesByType(ShapeType type) {
+		List<Shape> result = new ArrayList<Shape>();
+		for (Shape shape : this.shapes) {
+			if (shape.getType() == type) {
+				result.add(shape);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -88,8 +90,16 @@ public abstract class CompositeShape extends Shape {
 	 * @return
 	 */
 	public List<Shape> getLeafShapes() {
-		// TODO: Implement
-		return null;
+		List<Shape> leafs = new ArrayList<Shape>();
+		for (Shape shape : this.shapes) {
+			CompositeShape composite = shape.asComposite();
+			if (composite == null) {
+				leafs.add(shape);
+			} else {
+				leafs.addAll(composite.getLeafShapes());
+			}
+		}
+		return leafs;
 	}
 
 	/**
@@ -98,7 +108,11 @@ public abstract class CompositeShape extends Shape {
 	 * @return
 	 */
 	protected List<Shape> createShapesList() {
-		return null;
-		// TODO: Implement
+		return new ArrayList<Shape>();
+	}
+
+	@Override
+	public CompositeShape asComposite() {
+		return this;
 	}
 }

@@ -15,6 +15,12 @@
  */
 package eu.jpereira.trainings.designpatterns.behavioral.command.spies;
 
+import java.util.ArrayList;
+import java.util.List;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.exceptions.CouldNotConnectException;
+import eu.jpereira.trainings.designpatterns.behavioral.command.scheduler.Schedule;
+
 import eu.jpereira.trainings.designpatterns.behavioral.command.scheduler.CommandScheduler;
 
 /**
@@ -23,8 +29,7 @@ import eu.jpereira.trainings.designpatterns.behavioral.command.scheduler.Command
  */
 public class SpyCommandScheduler implements CommandScheduler {
 
-	//TODO: EXERCISE: Uncomment 
-	//private List<Command> scheduledCommand = new ArrayList<Command>();
+		private List<Command> scheduledCommand = new ArrayList<Command>();
 	
 
 	/*
@@ -37,8 +42,7 @@ public class SpyCommandScheduler implements CommandScheduler {
 	 * eu.jpereira.trainings.designpatterns.behavioral
 	 * .command.scheduler.Schedule)
 	 */
-	//TODO: EXERCISE: Uncomment 
-	/*
+		
 	@Override
 	public void schedule(Command command, Schedule schedule) {
 		this.scheduledCommand.add(command);
@@ -50,7 +54,7 @@ public class SpyCommandScheduler implements CommandScheduler {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-	}*/
+	}
 
 	
 

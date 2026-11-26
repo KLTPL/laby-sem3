@@ -36,7 +36,8 @@ public class ReportBuilder {
 
 	// Class variables
 	// Single instance
-	private static ReportBuilder instance;
+	// volatile: other threads never see a reference to a partially constructed object
+	private static volatile ReportBuilder instance;
 	private static List<String> configuredSites;
 
 	// Class initializer block
@@ -48,7 +49,7 @@ public class ReportBuilder {
 		configuredSites.add("http://stackoverflow.com");
 	}
 
-	public ReportBuilder() {
+	private ReportBuilder() {
 		initiatlize();
 	}
 
@@ -86,18 +87,42 @@ public class ReportBuilder {
 	}
 
 	/**
-	 * Get a single instance of type ReportBuilder
-	 * 
+	 * Get a single instance of type ReportBuilder (double-checked locking).
+	 * The lock is taken only while the instance does not exist yet.
+	 *
 	 * @return A single instance
 	 */
 	public static ReportBuilder getInstance() {
-		System.out.println("Getting instance for Thread " + Thread.currentThread().getId());
 		if (instance == null) {
-			System.out.println("Instance is null for Thread " + Thread.currentThread().getId());
-			instance = new ReportBuilder();
-			System.out.println("Returing " + instance.hashCode() + " instance to Thread " + Thread.currentThread().getId());
+			synchronized (ReportBuilder.class) {
+				if (instance == null) {
+					createInstance();
+				}
+			}
 		}
 		return instance;
+	}
+
+	/**
+	 * Get a single instance of type ReportBuilder (synchronized method).
+	 * Every call takes the lock, even after the instance exists.
+	 *
+	 * @return A single instance
+	 */
+	public static synchronized ReportBuilder getInstanceSynchronized() {
+		if (instance == null) {
+			createInstance();
+		}
+		return instance;
+	}
+
+	/**
+	 * Must be called while holding the ReportBuilder.class lock.
+	 */
+	private static void createInstance() {
+		System.out.println("Instance is null for Thread " + Thread.currentThread().getId());
+		instance = new ReportBuilder();
+		System.out.println("Returing " + instance.hashCode() + " instance to Thread " + Thread.currentThread().getId());
 	}
 
 	/**

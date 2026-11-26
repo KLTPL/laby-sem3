@@ -15,6 +15,13 @@
  */
 package eu.jpereira.trainings.designpatterns.behavioral.command.model.command;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.results.DBServerInstanceResult;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.exceptions.CouldNotConnectException;
+
 
 /**
  * A CommandJob is a composite of {@link Command}
@@ -23,38 +30,32 @@ package eu.jpereira.trainings.designpatterns.behavioral.command.model.command;
  */
 
 
-//TODO: EXERCISE: This class should implement Command
-public class CommandJob{
+public class CommandJob implements Command {
 
-	//TODO: EXERCISE: Uncomment the follwing line
-	//private List<Command> commands;
+	private List<Command> commands;
 	
-	//TODO: EXERCISE: Uncomment implementation
-	
-	/*public CommandJob() {
+		
+	public CommandJob() {
 		this.commands = new ArrayList<Command>();
-	}*/
+	}
 	
 	
-	//TODO: EXERCISE: Uncomment implementation
-	
-	/*public void addCommand(Command command) {
+		
+	public void addCommand(Command command) {
 		this.commands.add(command);
-	}*/
+	}
 	
-	//TODO: EXERCISE: Uncomment implementation
+		
 	
-	
-	/*public Collection<Command> getCommands() {
+	public Collection<Command> getCommands() {
 		return Collections.unmodifiableCollection(commands);
-	}*/
+	}
 
 	
 	/* (non-Javadoc)
 	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command#execute()
 	 */
-	//TODO: EXERCISE: Uncomment implementation
-	/*@Override
+	@Override
 	public void execute() throws CouldNotConnectException {
 		//for each command, execute it. 
 		//Can store the result
@@ -62,16 +63,16 @@ public class CommandJob{
 			command.execute();
 		}
 		
-	}*/
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command#getResult()
 	 */
-	//TODO: EXERCISE: Uncomment implementation
-	/*@Override
+	@SuppressWarnings("rawtypes")
+	@Override
 	public DBServerInstanceResult getResult() {
 		//Can store the result
 		return null;
-	}*/
+	}
 	
 }

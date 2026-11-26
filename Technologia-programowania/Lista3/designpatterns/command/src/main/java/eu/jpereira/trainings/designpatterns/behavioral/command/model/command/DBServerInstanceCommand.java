@@ -23,8 +23,7 @@ import eu.jpereira.trainings.designpatterns.behavioral.command.model.DBServerIns
  * @author jpereira
  * 
  */
-//TODO: EXERCISE: make class implementing Command
-public abstract  class DBServerInstanceCommand{
+public abstract  class DBServerInstanceCommand implements Command {
 
 	// The receiver object
 	protected DBServerInstance receiver;

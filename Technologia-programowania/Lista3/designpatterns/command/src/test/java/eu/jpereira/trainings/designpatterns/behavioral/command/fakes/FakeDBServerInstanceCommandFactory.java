@@ -16,6 +16,11 @@
 package eu.jpereira.trainings.designpatterns.behavioral.command.fakes;
 
 import eu.jpereira.trainings.designpatterns.behavioral.command.model.CommandFactory;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.DBServerInstance;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.QueryInstanceStatusCommand;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.StartInstanceCommand;
+import eu.jpereira.trainings.designpatterns.behavioral.command.model.command.StopInstanceCommand;
 
 
 /**
@@ -24,39 +29,19 @@ import eu.jpereira.trainings.designpatterns.behavioral.command.model.CommandFact
  */
 public class FakeDBServerInstanceCommandFactory implements CommandFactory {
 
-	
-	
-	//TODO: EXERCISE: Uncomment implementation
-	/* (non-Javadoc)
-	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.CommandFactory#createStartCommand()
-	 */
-	/*
 	@Override
 	public Command createStartCommand(DBServerInstance receiver) {
-		
 		return new StartInstanceCommand(receiver);
-	}*/
+	}
 
-	/* (non-Javadoc)
-	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.CommandFactory#createStopCommand(eu.jpereira.trainings.designpatterns.behavioral.command.model.DBServerInstance)
-	 */
-	//TODO: EXERCISE: Uncomment implementation
-	/*
 	@Override
 	public Command createStopCommand(DBServerInstance receiver) {
-		
 		return new StopInstanceCommand(receiver);
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.CommandFactory#createQueryInstanceStatusCommand(eu.jpereira.trainings.designpatterns.behavioral.command.model.DBServerInstance)
-	 */
-	
-	//TODO: EXERCISE: Uncomment implementation
-	/*@Override
+	@Override
 	public Command createQueryInstanceStatusCommand(DBServerInstance receiver) {
-		
 		return new QueryInstanceStatusCommand(receiver);
-	}*/
+	}
 
 }

@@ -96,6 +96,53 @@ public class ReportBuilderTest {
 
 	}
 
+	/**
+	 * Compares access cost after the instance exists: synchronized method vs
+	 * double-checked locking. Prints times only; timing assertions would be flaky.
+	 */
+	@Test
+	public void compareSynchronizedVsDoubleCheckedLocking() throws InterruptedException {
+		ReportBuilder.getInstance(); // create once, outside the measurement
+
+		long synchronizedMs = measureConcurrentCalls(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < CALLS_PER_THREAD; i++) {
+					ReportBuilder.getInstanceSynchronized();
+				}
+			}
+		});
+		long doubleCheckedMs = measureConcurrentCalls(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < CALLS_PER_THREAD; i++) {
+					ReportBuilder.getInstance();
+				}
+			}
+		});
+
+		System.out.println("synchronized method:    " + synchronizedMs + " ms");
+		System.out.println("double-checked locking: " + doubleCheckedMs + " ms");
+	}
+
+	private static final int THREADS = 10;
+	private static final int CALLS_PER_THREAD = 1000000;
+
+	private long measureConcurrentCalls(Runnable calls) throws InterruptedException {
+		List<Thread> threads = new ArrayList<Thread>();
+		for (int i = 0; i < THREADS; i++) {
+			threads.add(new Thread(calls));
+		}
+		long startTime = System.currentTimeMillis();
+		for (Thread thread : threads) {
+			thread.start();
+		}
+		for (Thread thread : threads) {
+			thread.join();
+		}
+		return System.currentTimeMillis() - startTime;
+	}
+
 	class Worker implements Runnable {
 
 		private int number;

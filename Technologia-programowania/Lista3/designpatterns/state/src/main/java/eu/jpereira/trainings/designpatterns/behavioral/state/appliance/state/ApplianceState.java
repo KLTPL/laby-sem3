@@ -18,50 +18,43 @@ package eu.jpereira.trainings.designpatterns.behavioral.state.appliance.state;
 /**
  * @author jpereira
  * 
- * TODO Exercise: Complete the steps in this file
  */
 public enum ApplianceState {
-	
-	
-	//TODO: Comment the following definitions 
-	OFF, ON, STOPPED, STARTED, UNKNOW;
-	
-	//TODO: Uncomment the following block of code
-	/*
-	
-	
-	OFF {
-		public ApplianceStateBehavior getStateBehavior() {
-			return new OffState();
-		}
-	},
-	ON {
-		public ApplianceStateBehavior getStateBehavior() {
-			return new OnState();
-		}
-	},
-	STOPPED {
-		public ApplianceStateBehavior getStateBehavior() {
-			return new StoppedState();
-		}
-	},
-	STARTED {
-		public ApplianceStateBehavior getStateBehavior() {
-			return new StartedState();
-		}
-	},
-	UNKNOW {
-		public ApplianceStateBehavior getStateBehavior() {
-			return new UnknowState();
-		}
-	};
+
+  // Each constant creates its own behavior object (State pattern)
+  OFF {
+    public ApplianceStateBehavior getStateBehavior() {
+      return new OffState();
+    }
+  },
+  ON {
+    public ApplianceStateBehavior getStateBehavior() {
+      return new OnState();
+    }
+  },
+  STOPPED {
+    public ApplianceStateBehavior getStateBehavior() {
+      return new StoppedState();
+    }
+  },
+  STARTED {
+    public ApplianceStateBehavior getStateBehavior() {
+      return new StartedState();
+    }
+  },
+  UNKNOW {
+    public ApplianceStateBehavior getStateBehavior() {
+      return new UnknowState();
+    }
+  };
+
+  /**
+   * Default
+   * 
+   * @return
    */
-	/**
-	 * Default
-	 * @return
-	 */
-	public ApplianceStateBehavior getStateBehavior() {
-		return null;
-	}
+  public ApplianceStateBehavior getStateBehavior() {
+    return null;
+  }
 
 }

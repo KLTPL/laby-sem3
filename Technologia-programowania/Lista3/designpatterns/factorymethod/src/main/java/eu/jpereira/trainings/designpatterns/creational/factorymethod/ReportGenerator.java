@@ -16,35 +16,19 @@
 package eu.jpereira.trainings.designpatterns.creational.factorymethod;
 
 /**
- * The Report Generator will create reports based on a given type
- * @author jpereira
- *
+ * Creator of the Factory Method pattern. The generation algorithm is fixed here;
+ * which concrete Report gets created is decided by subclasses in createReport().
  */
-public class ReportGenerator {
+public abstract class ReportGenerator {
 
-	/**
-	 * Generate a new report.
-	 * @param data The report data
-	 * @param type the type of report
-	 * @return the generated report, or null of type is unknown
-	 */
-	public Report generateReport(ReportData data, String type) {
-
-		Report generatedReport = null;
-
-		if (type.equals("JSON")) {
-			generatedReport = new JSONReport();
-		} else if (type.equals("XML")) {
-			generatedReport = new XMLReport();
-		} else if (type.equals("HTML")) {
-			generatedReport = new HTMLReport();
-		} else if (type.equals("PDF")) {
-			generatedReport = new PDFReport();
-		}
-		if (generatedReport != null) {
-			generatedReport.generateReport(data);
-		}
-
+	public Report generateReport(ReportData data) {
+		Report generatedReport = createReport();
+		generatedReport.generateReport(data);
 		return generatedReport;
 	}
+
+	/**
+	 * Factory method.
+	 */
+	protected abstract Report createReport();
 }

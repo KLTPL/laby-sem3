@@ -45,24 +45,22 @@ public class StopInstanceCommand extends DBServerInstanceCommand {
 	 * eu.jpereira.trainings.designpatterns.behavioral.command.model.command
 	 * .DBServerInstanceCommand#execute()
 	 */
-	//TODO: EXERCISE: Uncomment 
-	
-	/*@Override
+		
+	@Override
 	public void execute() throws CouldNotConnectException {
 		receiver.stopInstance();
 
-	}*/
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.jpereira.trainings.designpatterns.behavioral.command.model.command.Command#getResult()
 	 */
-	//TODO: EXERCISE: Uncomment 
-	
-	/*@SuppressWarnings("rawtypes")
+		
+	@SuppressWarnings("rawtypes")
 	@Override
 	public DBServerInstanceResult getResult() {
 		
 		return null;
-	}*/
+	}
 
 }
